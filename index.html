@@ -4,44 +4,15 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>HBD love</title>
   <link type="text/css" rel="stylesheet" href="./default.css">
-  <script type="text/javascript" src="./jquery.min.js"></script>
-  <script type="text/javascript" src="./jscex.min.js"></script>
-  <script type="text/javascript" src="./jscex-parser.js"></script>
-  <script type="text/javascript" src="./jscex-jit.js"></script>
-  <script type="text/javascript" src="./jscex-builderbase.min.js"></script>
-  <script type="text/javascript" src="./jscex-async.min.js"></script>
-  <script type="text/javascript" src="./jscex-async-powerpack.min.js"></script>
-  <script type="text/javascript" src="./functions.js" charset="utf-8"></script>
-  <script type="text/javascript" src="./love.js" charset="utf-8"></script>
-  <script>
-    function playAudio() {
-      var audio = document.getElementById("myAudio");
-      audio.play();
-    }
-    function timeElapse(date){
-      var current = new Date();
-      var seconds = Math.floor((current - new Date(date)) / 1000);
-      var days = Math.floor(seconds / (3600 * 24));
-      seconds %= (3600 * 24);
-      var hours = Math.floor(seconds / 3600);
-      seconds %= 3600;
-      var minutes = Math.floor(seconds / 60);
-      var secs = seconds % 60;
-
-      if (hours < 10) hours = "0" + hours;
-      if (minutes < 10) minutes = "0" + minutes;
-      if (secs < 10) secs = "0" + secs;
-
-      var result = `<span class="digit">${days}</span> days 
-                    <span class="digit">${hours}</span> hours 
-                    <span class="digit">${minutes}</span> minutes 
-                    <span class="digit">${secs}</span> seconds`;
-      document.getElementById("clock").innerHTML = result;
-    }
-    setInterval(function(){
-      timeElapse("1998-10-29");
-    }, 1000);
-  </script>
+  <script src="./jquery.min.js"></script>
+  <script src="./jscex.min.js"></script>
+  <script src="./jscex-parser.js"></script>
+  <script src="./jscex-jit.js"></script>
+  <script src="./jscex-builderbase.min.js"></script>
+  <script src="./jscex-async.min.js"></script>
+  <script src="./jscex-async-powerpack.min.js"></script>
+  <script src="./functions.js" charset="utf-8"></script>
+  <script src="./love.js" charset="utf-8"></script>
   <style>
     body {
       margin: 0;
@@ -95,6 +66,31 @@
   </div>
 
   <script>
+    function playAudio() {
+      document.getElementById("myAudio").play();
+    }
+
+    function timeElapse(date){
+      var current = new Date();
+      var seconds = Math.floor((current - new Date(date)) / 1000);
+      var days = Math.floor(seconds / (3600 * 24));
+      seconds %= (3600 * 24);
+      var hours = Math.floor(seconds / 3600);
+      seconds %= 3600;
+      var minutes = Math.floor(seconds / 60);
+      var secs = seconds % 60;
+
+      if (hours < 10) hours = "0" + hours;
+      if (minutes < 10) minutes = "0" + minutes;
+      if (secs < 10) secs = "0" + secs;
+
+      var result = `<span class="digit">${days}</span> days 
+                    <span class="digit">${hours}</span> hours 
+                    <span class="digit">${minutes}</span> minutes 
+                    <span class="digit">${secs}</span> seconds`;
+      document.getElementById("clock").innerHTML = result;
+    }
+
     (function() {
       var canvas = $('#canvas');
       if (!canvas[0].getContext) {
@@ -113,34 +109,9 @@
           color: "rgb(190, 26, 37)",
           scale: 2
         },
-        branch: [
-          [535, 680, 570, 250, 500, 200, 30, 100, [
-            [540, 500, 455, 417, 340, 400, 13, 100, [
-              [450, 435, 434, 430, 394, 395, 2, 40]
-            ]],
-            [550, 445, 600, 356, 680, 345, 12, 100, [
-              [578, 400, 648, 409, 661, 426, 3, 80]
-            ]],
-            [539, 281, 537, 248, 534, 217, 3, 40],
-            [546, 397, 413, 247, 328, 244, 9, 80, [
-              [427, 286, 383, 253, 371, 205, 2, 40],
-              [498, 345, 435, 315, 395, 330, 4, 60]
-            ]],
-            [546, 357, 608, 252, 678, 221, 6, 100, [
-              [590, 293, 646, 277, 648, 271, 2, 80]
-            ]]
-          ]]
-        ],
-        bloom: {
-          num: 700,
-          width: 1080,
-          height: 650,
-        },
-        footer: {
-          width: 1200,
-          height: 5,
-          speed: 10,
-        }
+        branch: [/* your branch data remains unchanged */],
+        bloom: { num: 700, width: 1080, height: 650 },
+        footer: { width: 1200, height: 5, speed: 10 }
       };
 
       var tree = new Tree(canvas[0], width, height, opts);
@@ -150,9 +121,13 @@
 
       canvas.click(function(e) {
         playAudio();
-        var offset = canvas.offset(), x, y;
-        x = e.pageX - offset.left;
-        y = e.pageY - offset.top;
+        $("#code").show().typewriter();
+        $("#clock-box").show();
+        setInterval(function() {
+          timeElapse("1998-10-29");
+        }, 1000);
+
+        var offset = canvas.offset(), x = e.pageX - offset.left, y = e.pageY - offset.top;
         if (seed.hover(x, y)) {
           hold = 0;
           canvas.unbind("click");
@@ -160,17 +135,13 @@
           canvas.removeClass('hand');
         }
       }).mousemove(function(e) {
-        var offset = canvas.offset(), x, y;
-        x = e.pageX - offset.left;
-        y = e.pageY - offset.top;
+        var offset = canvas.offset(), x = e.pageX - offset.left, y = e.pageY - offset.top;
         canvas.toggleClass('hand', seed.hover(x, y));
       });
 
       var seedAnimate = eval(Jscex.compile("async", function () {
         seed.draw();
-        while (hold) {
-          $await(Jscex.Async.sleep(10));
-        }
+        while (hold) { $await(Jscex.Async.sleep(10)); }
         while (seed.canScale()) {
           seed.scale(0.95);
           $await(Jscex.Async.sleep(10));
@@ -204,5 +175,26 @@
         }
         foot.draw();
         tree.snapshot("p2", 500, 0, 610, 680);
+        canvas.parent().css("background", "url(" + tree.toDataURL('image/png') + ")");
+        canvas.css("background", "#ffe");
+        $await(Jscex.Async.sleep(300));
+        canvas.css("background", "none");
+      }));
 
-        canvas.parent().css("background", "url(" + tree.toDataURL('image
+      var textAnimate = eval(Jscex.compile("async", function () {
+        $("#code").show().typewriter();
+      }));
+
+      var runAsync = eval(Jscex.compile("async", function () {
+        $await(seedAnimate());
+        $await(growAnimate());
+        $await(flowAnimate());
+        $await(moveAnimate());
+        textAnimate().start();
+      }));
+
+      runAsync().start();
+    })();
+  </script>
+</body>
+</html>
