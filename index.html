@@ -18,6 +18,29 @@
       var audio = document.getElementById("myAudio");
       audio.play();
     }
+    function timeElapse(date){
+      var current = new Date();
+      var seconds = Math.floor((current - new Date(date)) / 1000);
+      var days = Math.floor(seconds / (3600 * 24));
+      seconds %= (3600 * 24);
+      var hours = Math.floor(seconds / 3600);
+      seconds %= 3600;
+      var minutes = Math.floor(seconds / 60);
+      var secs = seconds % 60;
+
+      if (hours < 10) hours = "0" + hours;
+      if (minutes < 10) minutes = "0" + minutes;
+      if (secs < 10) secs = "0" + secs;
+
+      var result = `<span class="digit">${days}</span> days 
+                    <span class="digit">${hours}</span> hours 
+                    <span class="digit">${minutes}</span> minutes 
+                    <span class="digit">${secs}</span> seconds`;
+      document.getElementById("clock").innerHTML = result;
+    }
+    setInterval(function(){
+      timeElapse("1998-10-29");
+    }, 1000);
   </script>
   <style>
     body {
@@ -47,7 +70,7 @@
       <a href="http://www.google.cn/chrome/intl/zh-CN/landing_chrome.html?hl=zh-CN&brand=CHMI">Chrome</a>
       (<a href="http://firefox.com.cn/download/">Firefox</a>)
     </div>
-    <audio autoplay="autoplay" height="100" width="100" id="myAudio">
+    <audio autoplay id="myAudio">
       <source src="aud.mp3" type="audio/mp3" />
       <embed height="100" width="100" src="aud.mp3" />
     </audio>
@@ -64,7 +87,7 @@
         </div>
       </div>
       <div id="clock-box">
-        <span id="clock">577 days 0 hours 0 minutes 0 seconds</span>
+        <span id="clock"></span>
       </div>
       <canvas id="canvas" width="1100" height="680"></canvas>
       <img src="img.png" alt="Birthday decoration" class="decor">
@@ -182,26 +205,4 @@
         foot.draw();
         tree.snapshot("p2", 500, 0, 610, 680);
 
-        canvas.parent().css("background", "url(" + tree.toDataURL('image/png') + ")");
-        canvas.css("background", "#ffe");
-        $await(Jscex.Async.sleep(300));
-        canvas.css("background", "none");
-      }));
-
-      var textAnimate = eval(Jscex.compile("async", function () {
-        $("#code").show().typewriter();
-      }));
-
-      var runAsync = eval(Jscex.compile("async", function () {
-        $await(seedAnimate());
-        $await(growAnimate());
-        $await(flowAnimate());
-        $await(moveAnimate());
-        textAnimate().start();
-      }));
-
-      runAsync().start();
-    })();
-  </script>
-</body>
-</html>
+        canvas.parent().css("background", "url(" + tree.toDataURL('image
