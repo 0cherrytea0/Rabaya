@@ -91,7 +91,7 @@
 </head>
 <body>
   <div id="main">
-    <audio autoplay id="myAudio">
+    <audio id="myAudio">
       <source src="aud.mp3" type="audio/mp3" />
     </audio>
     <div id="wrap">
@@ -161,13 +161,10 @@
       var foot = tree.footer;
       var hold = 1;
 
-      canvas.click(function (e) {
+      canvas.click(function () {
         playAudio();
-        var offset = canvas.offset(), x = e.pageX - offset.left, y = e.pageY - offset.top;
-        if (seed.hover(x, y)) {
-          hold = 0;
-          canvas.unbind("click").unbind("mousemove").removeClass('hand');
-        }
+        hold = 0;
+        canvas.unbind("click").unbind("mousemove").removeClass('hand');
       }).mousemove(function (e) {
         var offset = canvas.offset(), x = e.pageX - offset.left, y = e.pageY - offset.top;
         canvas.toggleClass('hand', seed.hover(x, y));
