@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HBD Rabaya</title>
+  <title>HBD love</title>
   <link rel="stylesheet" href="./default.css" />
   <script src="./jquery.min.js"></script>
   <script src="./jscex.min.js"></script>
@@ -18,7 +18,7 @@
     body {
       margin: 0;
       padding: 0;
-      background-image: url('img2.png');
+      background-image: url('./file/img2.png');
       background-size: cover;
       background-repeat: no-repeat;
       font-family: sans-serif;
@@ -66,111 +66,88 @@
       height: auto;
       display: block;
     }
-    img.decor {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      width: 100px;
-      height: auto;
-      z-index: 10;
-    }
-    @media (max-width: 600px) {
-      #text {
-        top: 5%;
-        left: 5%;
-        width: 90%;
-      }
-      #clock-box {
-        font-size: 1em;
-      }
-      img.decor {
-        width: 80px;
-      }
-    }
   </style>
 </head>
 <body>
   <div id="main">
     <audio id="myAudio">
-      <source src="aud.mp3" type="audio/mp3" />
+      <source src="./file/aud.mp3" type="audio/mp3" />
     </audio>
     <div id="wrap">
       <div id="text">
         <div id="code">
-          <span class="say">My beautiful Friend RABAYA 💞</span>
-          <span class="say">Happy Birthday 🎈</span>
-          <span class="say">May Allah bless you 🍀</span>
-          <span class="say">And give u many happiness 💕</span>
-          <span class="say">I loved you ❤️</span>
-          <span class="say">And I will always love u 🥺 ❤️</span>
-          <span class="say">Hope u have a great day today ❤️😘</span>
+          <span class="say">My beautiful wife 💞</span><br>
+          <span class="say">Happy Birthday 🎈</span><br>
+          <span class="say">May Allah bless you 🍀</span><br>
+          <span class="say">And give u many happiness 💕</span><br>
+          <span class="say">I loved you ❤️</span><br>
+          <span class="say">And I will always love u 🥺 ❤️</span><br>
+          <span class="say">Hope u have a great day today ❤️😘</span><br>
         </div>
       </div>
       <div id="clock-box">
         <span id="clock"></span>
       </div>
       <canvas id="canvas" width="1100" height="680"></canvas>
-      <img src="img.png" alt="Birthday decoration" class="decor" />
     </div>
   </div>
 
   <script>
     function playAudio() {
-      document.getElementById("myAudio").play();
+      const audio = document.getElementById("myAudio");
+      audio.play().catch(() => {}); // Prevent mobile autoplay errors
     }
 
     function timeElapse(date) {
-      var current = new Date();
-      var seconds = Math.floor((current - new Date(date)) / 1000);
-      var days = Math.floor(seconds / (3600 * 24));
-      seconds %= (3600 * 24);
-      var hours = Math.floor(seconds / 3600);
-      seconds %= 3600;
-      var minutes = Math.floor(seconds / 60);
-      var secs = seconds % 60;
+      const current = new Date();
+      const seconds = Math.floor((current - new Date(date)) / 1000);
+      const days = Math.floor(seconds / (3600 * 24));
+      const hours = Math.floor((seconds % (3600 * 24)) / 3600);
+      const minutes = Math.floor((seconds % 3600) / 60);
+      const secs = seconds % 60;
 
-      if (hours < 10) hours = "0" + hours;
-      if (minutes < 10) minutes = "0" + minutes;
-      if (secs < 10) secs = "0" + secs;
-
-      var result = `<span class="digit">${days}</span> days 
-                    <span class="digit">${hours}</span> hours 
-                    <span class="digit">${minutes}</span> minutes 
-                    <span class="digit">${secs}</span> seconds`;
+      const result = `<span class="digit">${days}</span> days 
+                      <span class="digit">${hours}</span> hours 
+                      <span class="digit">${minutes}</span> minutes 
+                      <span class="digit">${secs}</span> seconds`;
       document.getElementById("clock").innerHTML = result;
     }
 
     (function () {
-      var canvas = $('#canvas');
+      const canvas = $('#canvas');
       if (!canvas[0].getContext) return;
 
-      var width = canvas.width();
-      var height = canvas.height();
+      const width = canvas.width();
+      const height = canvas.height();
       canvas.attr("width", width);
       canvas.attr("height", height);
 
-      var opts = {
+      const opts = {
         seed: { x: width / 2 - 20, color: "rgb(190, 26, 37)", scale: 2 },
         branch: [/* your original branch data here */],
         bloom: { num: 700, width: 1080, height: 650 },
         footer: { width: 1200, height: 5, speed: 10 }
       };
 
-      var tree = new Tree(canvas[0], width, height, opts);
-      var seed = tree.seed;
-      var foot = tree.footer;
-      var hold = 1;
+      const tree = new Tree(canvas[0], width, height, opts);
+      const seed = tree.seed;
+      const foot = tree.footer;
+      let hold = 1;
 
       canvas.click(function () {
         playAudio();
         hold = 0;
         canvas.unbind("click").unbind("mousemove").removeClass('hand');
-      }).mousemove(function (e) {
-        var offset = canvas.offset(), x = e.pageX - offset.left, y = e.pageY - offset.top;
+      });
+
+      canvas.mousemove(function (e) {
+        const offset = canvas.offset();
+        const x = e.pageX - offset.left;
+        const y = e.pageY - offset.top;
         canvas.toggleClass('hand', seed.hover(x, y));
       });
 
-      var seedAnimate = eval(Jscex.compile("async", function () {
+      const seedAnimate = eval(Jscex.compile("async", function () {
         seed.draw();
         while (hold) { $await(Jscex.Async.sleep(10)); }
         while (seed.canScale()) {
@@ -184,21 +161,21 @@
         }
       }));
 
-      var growAnimate = eval(Jscex.compile("async", function () {
+      const growAnimate = eval(Jscex.compile("async", function () {
         do {
           tree.grow();
           $await(Jscex.Async.sleep(10));
         } while (tree.canGrow());
       }));
 
-      var flowAnimate = eval(Jscex.compile("async", function () {
+      const flowAnimate = eval(Jscex.compile("async", function () {
         do {
           tree.flower(2);
           $await(Jscex.Async.sleep(10));
         } while (tree.canFlower());
       }));
 
-      var moveAnimate = eval(Jscex.compile("async", function () {
+      const moveAnimate = eval(Jscex.compile("async", function () {
         tree.snapshot("p1", 240, 0, 610, 680);
         while (tree.move("p1", 500, 0)) {
           foot.draw();
@@ -212,13 +189,13 @@
         canvas.css("background", "none");
       }));
 
-      var textAnimate = eval(Jscex.compile("async", function () {
+      const textAnimate = eval(Jscex.compile("async", function () {
         $("#code").show().typewriter();
         $("#clock-box").show();
         setInterval(() => timeElapse("1998-10-29"), 1000);
       }));
 
-      var runAsync = eval(Jscex.compile("async", function () {
+      const runAsync = eval(Jscex.compile("async", function () {
         $await(seedAnimate());
         $await(growAnimate());
         $await(flowAnimate());
