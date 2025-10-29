@@ -163,10 +163,6 @@
 
       canvas.click(function (e) {
         playAudio();
-        $("#code").show().typewriter();
-        $("#clock-box").show();
-        setInterval(() => timeElapse("1998-10-29"), 1000);
-
         var offset = canvas.offset(), x = e.pageX - offset.left, y = e.pageY - offset.top;
         if (seed.hover(x, y)) {
           hold = 0;
@@ -221,6 +217,8 @@
 
       var textAnimate = eval(Jscex.compile("async", function () {
         $("#code").show().typewriter();
+        $("#clock-box").show();
+        setInterval(() => timeElapse("1998-10-29"), 1000);
       }));
 
       var runAsync = eval(Jscex.compile("async", function () {
@@ -228,7 +226,7 @@
         $await(growAnimate());
         $await(flowAnimate());
         $await(moveAnimate());
-        textAnimate().start();
+        $await(textAnimate());
       }));
 
       runAsync().start();
